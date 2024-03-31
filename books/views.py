@@ -2,8 +2,26 @@ from django.shortcuts import render
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import Book, Author
-from books.serializers import AutorSerializers,BookSerializers
+from books.serializers import AutorSerializers,BookSerializers, UserSerializer,User
 from rest_framework import status
+from rest_framework.views import APIView
+from rest_framework.authtoken.models import Token
+
+
+class RegisterUser(APIView):
+   def post(self,request):
+      serializer = UserSerializer(data = request.data)
+      if not serializer.is_valid():
+            
+            return Response({'status' : 403 ,'errors' : serializer.errors, 'massage' : 'somthing went worng'})
+      
+      serializer.save()
+
+      user = User.objects.get(username = serializer.data['username'])
+      token_obj ,_ =Token.objects.get_or_create(user=user)
+            
+      return Response({'status' : 200, 'payload' : serializer.data, 'token' : str(token_obj), 'massage' : 'your data is saved'})      
+
 
 # AUTHOR CURD [GET,POST, PUT, PATCH. DEL]
 

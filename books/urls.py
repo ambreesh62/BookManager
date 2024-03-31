@@ -1,6 +1,6 @@
 # from django.contrib import admin
 from django.urls import path
-from books.views import get_author, post_author, post_book, get_book, update_author, patch_author, delete_author, update_book, patch_book, delete_book
+from books.views import get_author, post_author, post_book, get_book, update_author, patch_author, delete_author, update_book, patch_book, delete_book,RegisterUser
 
 urlpatterns = [
     path('get-author/',get_author ),
@@ -14,4 +14,5 @@ urlpatterns = [
     path('update-book/<id>/', update_book),
     path('patch-book/<id>/', patch_book),
     path('delete-book/<id>/', delete_book),
+    path('register/' , RegisterUser.as_view()),
 ]
